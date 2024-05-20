@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -8,6 +14,7 @@ import {
 import { router, Link } from "expo-router";
 import Vehicles from "../component/vehicles";
 import Icon from "react-native-vector-icons/FontAwesome";
+import AvailableSpace from "../component/availableSpace";
 
 export default function home() {
   return (
@@ -187,7 +194,7 @@ export default function home() {
             alignItems: "center",
           }}
         >
-          <View style={{ flexDirection: "column" }}>
+          <ScrollView style={{ flexDirection: "column" }}>
             <Text
               style={{
                 color: "black",
@@ -201,12 +208,15 @@ export default function home() {
             <Text style={{ color: "#44594b", marginTop: wp("1%") }}>
               The best parking space near you
             </Text>
-          </View>
+          </ScrollView>
           <Link href={""} style={{ fontWeight: "bold", color: "green" }}>
             See more
           </Link>
         </View>
       </View>
+
+      <AvailableSpace />
+      <AvailableSpace />
     </View>
   );
 }
