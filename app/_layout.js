@@ -29,6 +29,14 @@ const _layout = () => {
         name="bookingsuccessfully/index"
         options={{ presentation: "modal" }}
       />
+      <Stack.Screen
+        name="map/index"
+        options={{ headerShown: true, title: "Navigation" }}
+      />
+      <Stack.Screen
+        name="addcardetails/index"
+        options={{ headerShown: true, title: "Add new car" }}
+      />
     </Stack>
   );
 };

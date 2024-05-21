@@ -21,7 +21,6 @@ export default function home() {
     <ScrollView
       style={{
         width: wp("100%"),
-        height: "100%",
       }}
     >
       <View
@@ -224,8 +223,7 @@ export default function home() {
         </View>
         <AvailableSpace />
         <AvailableSpace />
-        <AvailableSpace />
-        <AvailableSpace />
+    
       </View>
     </ScrollView>
   );

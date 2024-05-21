@@ -12,14 +12,14 @@ import { router } from "expo-router";
 
 const AvailableSpace = () => {
   return (
-    <TouchableOpacity
+    <View
       onPress={() => {
         router.push("/checkout");
       }}
       style={{
         marginTop: wp("4%"),
         width: "100%",
-        backgroundColor: "#f2f7f4",
+        backgroundColor: "#fff",
         borderRadius: wp("3%"),
         padding: wp("2%"),
         shadowColor: "#000",
@@ -80,7 +80,45 @@ const AvailableSpace = () => {
         <SmallDetailsCar icon="clock" title1="4" title2="minutes" />
         <SmallDetailsCar icon="car" title1="15" title2="available" />
       </View>
-    </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          gap: wp("4%"),
+          justifyContent: "space-between",
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            backgroundColor: "green",
+            padding: wp("2%"),
+            borderRadius: wp("2%"),
+            alignItems: "center",
+            marginTop: wp("2%"),
+            width: wp("40%"),
+          }}
+          onPress={() => {
+            router.push("/checkout");
+          }}
+        >
+          <Text style={{ color: "#fff" }}>Book Now</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "green",
+            padding: wp("2%"),
+            borderRadius: wp("2%"),
+            alignItems: "center",
+            marginTop: wp("2%"),
+            width: wp("40%"),
+          }}
+          onPress={() => {
+            router.push("/map");
+          }}
+        >
+          <Text style={{ color: "#fff" }}>Map</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 

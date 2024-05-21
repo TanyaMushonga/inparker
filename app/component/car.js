@@ -9,7 +9,7 @@ const Car = (props) => {
   return (
     <View
       style={{
-        backgroundColor: "#fff",
+        backgroundColor: "#ddedde",
         padding: wp("1%"),
         borderRadius: wp("3%"),
       }}

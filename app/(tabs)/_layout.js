@@ -40,6 +40,10 @@ export default function _layout() {
         options={{
           title: "Parking Session",
           headerTitleAlign: "center",
+          headerTintColor: "#fff",
+          headerStyle: {
+            backgroundColor: "green",
+          },
           tabBarLabel: "Session",
           tabBarIcon: ({ color }) => (
             <FontAwesome name="clock-o" color={color} size={hp("4%")} />
@@ -49,6 +53,10 @@ export default function _layout() {
       <Tabs.Screen
         name="history"
         options={{
+          headerTintColor: "#fff",
+          headerStyle: {
+            backgroundColor: "green",
+          },
           title: "Parking History",
           headerTitleAlign: "center",
           tabBarLabel: "History",
@@ -60,6 +68,10 @@ export default function _layout() {
       <Tabs.Screen
         name="accounts"
         options={{
+          headerTintColor: "#fff",
+          headerStyle: {
+            backgroundColor: "green",
+          },
           title: "Accounts",
           headerTitleAlign: "center",
           tabBarLabel: "Account",
