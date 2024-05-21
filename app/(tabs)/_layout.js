@@ -38,6 +38,8 @@ export default function _layout() {
       <Tabs.Screen
         name="session"
         options={{
+          title: "Parking Session",
+          headerTitleAlign: "center",
           tabBarLabel: "Session",
           tabBarIcon: ({ color }) => (
             <FontAwesome name="clock-o" color={color} size={hp("4%")} />
@@ -47,6 +49,8 @@ export default function _layout() {
       <Tabs.Screen
         name="history"
         options={{
+          title: "Parking History",
+          headerTitleAlign: "center",
           tabBarLabel: "History",
           tabBarIcon: ({ color }) => (
             <FontAwesome name="history" color={color} size={hp("4%")} />
@@ -56,6 +60,8 @@ export default function _layout() {
       <Tabs.Screen
         name="accounts"
         options={{
+          title: "Accounts",
+          headerTitleAlign: "center",
           tabBarLabel: "Account",
           tabBarIcon: ({ color }) => (
             <FontAwesome name="user" color={color} size={hp("4%")} />

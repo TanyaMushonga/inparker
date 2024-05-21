@@ -9,6 +9,26 @@ const _layout = () => {
       <Stack.Screen name="login" options={{ headerShown: false }} />
       <Stack.Screen name="signup" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="checkout/index"
+        options={{ headerShown: true, title: "Transaction Details" }}
+      />
+      <Stack.Screen
+        name="topup/index"
+        options={{ headerShown: true, title: "Topup" }}
+      />
+      <Stack.Screen
+        name="notifications/index"
+        options={{ headerShown: true, title: "Notifications" }}
+      />
+      <Stack.Screen
+        name="search/index"
+        options={{ headerShown: true, title: "Search" }}
+      />
+      <Stack.Screen
+        name="bookingsuccessfully/index"
+        options={{ presentation: "modal" }}
+      />
     </Stack>
   );
 };
