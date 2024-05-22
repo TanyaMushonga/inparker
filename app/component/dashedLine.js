@@ -9,7 +9,7 @@ const DashedLine = () => {
         borderBottomColor: "black",
         borderBottomWidth: 1,
         borderStyle: "dashed",
-        marginVertical: widthPercentageToDP('7%'), // Add some margin to separate it from other components
+        marginVertical: widthPercentageToDP('4%'), // Add some margin to separate it from other components
       }}
     />
   );
