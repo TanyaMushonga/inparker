@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Input, Icon } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -14,14 +14,44 @@ export default function index() {
     nationalId: "",
     carType: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (name, value) => {
     setCarDetails({ ...carDetails, [name]: value });
   };
 
-  const handleFormSubmit = () => {
-    // Add code here to submit the form to the database
-    console.log(carDetails);
+  const handleFormSubmit = async () => {
+    // Validation
+    if (!carDetails.color || !carDetails.nationalId || !carDetails.carType) {
+      Alert.alert("Submission failed", "All fields are required");
+      return;
+    }
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "http://inpark-api-331214075983.herokuapp.com/create-vehicle/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(carDetails),
+        }
+      );
+
+      if (!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        throw new Error(message);
+      }
+
+      const data = await response.json();
+
+      // Handle successful submission here, e.g. show a success message
+    } catch (error) {
+      Alert.alert("Submission failed", error.message);
+    }
+    setLoading(false);
   };
 
   return (
@@ -40,14 +70,7 @@ export default function index() {
       >
         <FontAwesome5 name={"car"} size={154} color="green" />
       </View>
-      <Input
-        placeholder="National ID"
-        leftIcon={
-          <Icon name="id-card" type="font-awesome" size={24} color="green" />
-        }
-        value={carDetails.nationalId}
-        onChangeText={(value) => handleInputChange(" Your National ID", value)}
-      />
+
       <Input
         placeholder="Car Registration Number"
         leftIcon={
@@ -87,18 +110,33 @@ export default function index() {
           padding: wp("2%"),
           width: wp("90%"),
         }}
-        onPress={() => {}}
+        onPress={() => {
+          handleFormSubmit();
+        }}
+        disabled={loading}
       >
         <Ionicons name="add-circle" size={24} color="#fff" />
-        <Text
-          style={{
-            fontSize: wp("4%"),
+        {loading ? (
+          <Text
+            style={{
+              fontSize: wp("4%"),
 
-            color: "#fff",
-          }}
-        >
-          Save
-        </Text>
+              color: "#fff",
+            }}
+          >
+            Saving...
+          </Text>
+        ) : (
+          <Text
+            style={{
+              fontSize: wp("4%"),
+
+              color: "#fff",
+            }}
+          >
+            Saved
+          </Text>
+        )}
       </TouchableOpacity>
     </View>
   );

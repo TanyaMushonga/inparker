@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { Input, Button, Divider } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -8,10 +8,79 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Link } from "expo-router";
-
+import { Entypo } from "@expo/vector-icons";
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const login = async () => {
+    // Validation
+    if (!username || !password) {
+      Alert.alert("Login failed", "Email and password are required");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "http://inpark-api-331214075983.herokuapp.com/login/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        const serverMessage = data.message;
+        const message = `An error has occured: ${response.status}, server message: ${serverMessage}`;
+        throw new Error(message);
+      }
+
+      setTimeout(() => {
+        router.push("/(tabs)/home");
+      }, 500);
+    } catch (error) {
+      Alert.alert("Login failed", error.message);
+    }
+    setLoading(false);
+  };
+
+  const logout = async () => {
+    try {
+      console.log("Sending data:", {
+        username,
+        password,
+      });
+      const response = await fetch(
+        "http://inpark-api-331214075983.herokuapp.com/logout/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        throw new Error(message);
+      }
+
+      const data = await response.json();
+
+      // Handle successful logout here, e.g. navigate to the login screen
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -25,10 +94,10 @@ const Login = () => {
         <FontAwesome name="user" size={150} color="green" />
       </View>
       <Input
-        placeholder="Email"
-        leftIcon={<FontAwesome name="envelope" size={24} color="green" />}
-        onChangeText={(value) => setEmail(value)}
-        value={email}
+        placeholder="Username"
+        leftIcon={<Entypo name="user" size={24} color="green" />}
+        onChangeText={(value) => setUsername(value)}
+        value={username}
         inputContainerStyle={styles.inputContainer}
         inputStyle={styles.input}
       />
@@ -47,14 +116,17 @@ const Login = () => {
           create one
         </Link>
       </View>
-    
+
       <Button
-        title="Login"
+        title={loading ? "Signing in..." : "Sign in"}
         buttonStyle={styles.button}
         onPress={() => {
           router.push("/(tabs)/home");
         }}
-      />
+        disabled={loading}
+      >
+        {loading && <ActivityIndicator color="#fff" />}
+      </Button>
       <View style={styles.divider}>
         <View style={styles.line} />
         <Text style={styles.text}>Or</Text>
@@ -71,6 +143,12 @@ const Login = () => {
         buttonStyle={styles.facebookButton}
         icon={<FontAwesome name="facebook" size={24} color="white" />}
       />
+      <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+        <Text>Want to leave?</Text>
+        <Text onPress={logout} style={{ color: "green" }}>
+          Logout
+        </Text>
+      </View>
     </View>
   );
 };

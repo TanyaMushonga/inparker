@@ -5,7 +5,7 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import {
   heightPercentageToDP as hp,
@@ -15,8 +15,50 @@ import { router, Link } from "expo-router";
 import Vehicles from "../component/vehicles";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AvailableSpace from "../component/availableSpace";
+import { getDatabase, ref, onValue } from "firebase/database";
+import app from "./../firebase/firebase";
 
 export default function home() {
+  const [data, setData] = React.useState(null);
+
+  useEffect(() => {
+    const db = getDatabase(app);
+    const dbRef = ref(db);
+    onValue(dbRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const dataArray = Object.keys(data).map((key) => data[key]);
+        const formattedData = dataArray.map((item) => {
+          const datetime = item.datetime;
+          const deviceId = item.device_id;
+          const spots = item.spots
+            .filter((spot) => !spot.occupied)
+            .map((spot) => {
+              return {
+                address: spot.address,
+                coordinates: spot.coordinates,
+                occupied: spot.occupied,
+              };
+            });
+          spots.forEach((spot) => {
+            console.log(
+              `Address: ${spot.address}, Coordinates: ${JSON.stringify(
+                spot.coordinates
+              )}`
+            );
+          });
+          return {
+            datetime,
+            deviceId,
+            spots,
+          };
+        });
+        setData(formattedData); // Set the state with the new data
+      } else {
+        console.log("No data available");
+      }
+    });
+  }, []);
   return (
     <ScrollView
       style={{
@@ -223,7 +265,6 @@ export default function home() {
         </View>
         <AvailableSpace />
         <AvailableSpace />
-    
       </View>
     </ScrollView>
   );
