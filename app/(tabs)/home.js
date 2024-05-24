@@ -20,7 +20,7 @@ import app from "./../firebase/firebase";
 
 export default function home() {
   const [data, setData] = React.useState(null);
-
+  let coordinatesArray = [];
   useEffect(() => {
     const db = getDatabase(app);
     const dbRef = ref(db);
@@ -40,13 +40,16 @@ export default function home() {
                 occupied: spot.occupied,
               };
             });
+
           spots.forEach((spot) => {
+            coordinatesArray.push(spot.coordinates);
             console.log(
               `Address: ${spot.address}, Coordinates: ${JSON.stringify(
                 spot.coordinates
               )}`
             );
           });
+          console.log(coordinatesArray);
           return {
             datetime,
             deviceId,
@@ -263,8 +266,16 @@ export default function home() {
             See more
           </Link>
         </View>
-        <AvailableSpace />
-        <AvailableSpace />
+        {data &&
+          data.map((item, index) =>
+            item.spots.map((spot, spotIndex) => (
+              <AvailableSpace
+                key={`spot-${index}-${spotIndex}`}
+                address={spot.address}
+                coordinates={coordinatesArray}
+              />
+            ))
+          )}
       </View>
     </ScrollView>
   );

@@ -10,7 +10,7 @@ import SmallDetailsCar from "./smallDetailsCar";
 const view = require("./../../assets/view.jpg");
 import { router } from "expo-router";
 
-const AvailableSpace = () => {
+const AvailableSpace = ({ coordinates, address }) => {
   return (
     <View
       onPress={() => {
@@ -62,9 +62,7 @@ const AvailableSpace = () => {
             >
               CBD
             </Text>
-            <Text style={{ color: "#44594b" }}>
-              corner Fife str and 8th avenue{" "}
-            </Text>
+            <Text style={{ color: "#44594b" }}>{address}</Text>
           </View>
         </View>
       </View>
@@ -100,7 +98,7 @@ const AvailableSpace = () => {
             router.push("/checkout");
           }}
         >
-          <Text style={{ color: "#fff" }}>Book Now</Text>
+          <Text style={{ color: "#fff" }}>Pay</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
@@ -112,7 +110,13 @@ const AvailableSpace = () => {
             width: wp("40%"),
           }}
           onPress={() => {
-            router.push("/map");
+            router.push({
+              pathname: "/map",
+              query: {
+                latitude: latitude,
+                longitude: longitude,
+              },
+            });
           }}
         >
           <Text style={{ color: "#fff" }}>Map</Text>
